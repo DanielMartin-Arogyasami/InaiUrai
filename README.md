@@ -1,26 +1,32 @@
-```markdown
-# InaiUrai v5.0 — AI Workforce-as-a-Service
+Markdown
 
-> **"Hire AI employees. Describe the outcome. We deliver."**
+# InaiUrai v5.0 — Autonomous AI Workforce Infrastructure
 
-InaiUrai is an enterprise-grade platform that dynamically assembles, orchestrates, and manages teams of AI executives. Instead of users manually prompting individual LLMs, customers describe a business objective. InaiUrai's orchestrator analyzes the request, proposes a specialized team from a catalog of 16 roles, and executes the work through a secure, budgeted, and fully auditable ReAct loop.
+> **Vision: Democratizing OpenClaw-like personal computer agents for everyone.**
+
+InaiUrai is an enterprise-grade orchestration platform designed to make advanced, autonomous computer agents accessible and secure for universal adoption. By advancing the paradigm of OpenClaw-like personal AI assistants, InaiUrai bridges the gap between complex local LLM architectures and everyday users. Customers describe an objective, and the system dynamically assembles, budgets, and orchestrates a secure team of specialized AI agents to execute complex, multi-step tasks natively.
+
+## 🇺🇸 Vision & National Impact
+While cutting-edge autonomous agents (such as OpenClaw and specialized ReAct loops) possess immense potential to drive economic productivity, they are currently restricted by steep technical barriers, unmanageable API costs, and severe cybersecurity risks (e.g., prompt injection and data leakage). 
+
+InaiUrai addresses these critical bottlenecks. By providing a secure, governed, and easily deployable framework, this project aims to democratize personal computer agents for the broader US workforce, empowering individuals and enterprises to safely scale operations and maintain global technological competitiveness.
 
 ## 🏗 System Architecture
 
-InaiUrai operates as a monorepo containing three core services, designed for high concurrency, security, and complex AI reasoning:
+InaiUrai operates as a highly modular monorepo containing three core services, architected for high concurrency, enterprise security, and complex reasoning:
 
 * **Backend (Go 1.23+):** Handles high-concurrency routing, multi-channel webhooks (Telegram, Slack, WhatsApp), billing, and database transactions.
-* **Engine (Python 3.12 + FastAPI):** The "brains." Manages the Agentic ReAct loop, tool orchestration, and Anthropic API integration (Claude Sonnet 4.6 for reasoning, Haiku 4.5 for planning).
-* **Frontend (Next.js 14):** Provides the client-facing dashboard and realtime WebSocket connections.
-* **Infrastructure:** PostgreSQL 16, Redis 7, containerized via Docker.
+* **Engine (Python 3.12 + FastAPI):** The orchestration core. Manages the Agentic ReAct loop, tool proxying, and Anthropic API integration (Claude Sonnet 4.6 for reasoning, Haiku 4.5 for planning).
+* **Frontend (Next.js 14):** Provides the client-facing deployment dashboard and real-time WebSocket monitoring.
+* **Infrastructure:** PostgreSQL 16, Redis 7, containerized via Docker for hardware-agnostic deployment.
 
 ### The Five-Layer Security Model
-Because agents have tool access, InaiUrai employs a strict defense-in-depth security model:
-1.  **Permission Gate:** Role-specific tool allowlists.
-2.  **Prompt Firewall:** Sanitizes all incoming web content.
-3.  **Output Validator:** Leak detection and output constraints.
-4.  **Cost Governor:** Strict iteration, token, and time limits per-role.
-5.  **Audit Trail:** Append-only logging of every agent action and thought process.
+Bringing personal computer agents to everyone requires absolute safety. InaiUrai employs a strict defense-in-depth security model to govern autonomous actions:
+1.  **Permission Gate:** Role-specific tool allowlists to prevent unauthorized system access.
+2.  **Prompt Firewall:** Sanitizes all incoming web content against injection attacks.
+3.  **Output Validator:** Enterprise-grade leak detection and strict output constraints.
+4.  **Cost Governor:** Hard iteration, token, and time limits preventing runaway API consumption.
+5.  **Audit Trail:** Append-only cryptographic logging of every agent action and thought process.
 
 ## 🚀 Getting Started
 
@@ -29,65 +35,59 @@ Because agents have tool access, InaiUrai employs a strict defense-in-depth secu
 * [Make](https://www.gnu.org/software/make/)
 
 ### 1. Environment Setup
-Clone the repository and set up your local environment variables.
+Clone the repository and securely configure your environment.
 ```bash
 git clone [https://github.com/DanielMartin-Arogyasami/InaiUrai.git](https://github.com/DanielMartin-Arogyasami/InaiUrai.git)
 cd InaiUrai
 cp .env.example .env
-```
-*Note: You must populate at least `INTERNAL_API_KEY` (use a secure 32-byte hex), `ANTHROPIC_API_KEY`, and `SERPER_API_KEY` in your `.env` file for the engine to boot successfully.*
+Note: You must populate at least INTERNAL_API_KEY (use a secure 32-byte hex), ANTHROPIC_API_KEY, and SERPER_API_KEY in your .env file.
 
-### 2. Bootstrapping the Environment
-InaiUrai uses a centralized Makefile to handle Docker composition, database migrations, and initial data seeding.
+2. Bootstrapping the Environment
+InaiUrai utilizes a centralized Makefile to deploy the containerized infrastructure, ensuring a 1-click setup for any user.
 
-```bash
+Bash
+
 make bootstrap
-```
-This command will:
-1. Spin up Postgres, Redis, Go Backend, Python Engine, and Next.js containers.
-2. Run all 9 database migrations (including enterprise hardening).
-3. Seed the initial data and role configurations.
+This routine will:
 
-### 3. Verify Deployment
-Once the stack is ready, the services will be available at:
-* **Frontend:** `http://localhost:3000`
-* **Backend API:** `http://localhost:8080`
-* **AI Engine (Internal):** `http://localhost:8000`
+Spin up Postgres, Redis, Go Backend, Python Engine, and Next.js containers.
 
-To view real-time logs across all services:
-```bash
+Execute all 9 database migrations (including enterprise security hardening).
+
+Seed the initial capability registry and role configurations.
+
+3. Verify Deployment
+Once the stack initializes, services are accessible at:
+
+Frontend Dashboard: http://localhost:3000
+
+Backend API: http://localhost:8080
+
+AI Engine (Internal): http://localhost:8000
+
+To monitor the real-time reasoning loops across the cluster:
+
+Bash
+
 make logs
-```
+🧠 Core Engineering Concepts
+Engagements: The universal unit of autonomous work. Scales dynamically from a single Task (1 role, ~60s execution), to a Project (2-6 roles coordinating over days), to a continuous Department (recurring proactive tasks via system heartbeats).
 
-## 🧠 Core Concepts
+Dynamic Team Assembly: Eliminating manual prompting. The Orchestrator maps the user's plain-English objective to required technical capabilities, automatically generating a specialized agent team.
 
-* **Engagements:** The universal unit of work. Engagements scale from a single **Task** (1 role, ~60s), to a **Project** (2-6 roles, days), to a continuous **Department** (recurring tasks via heartbeats).
-* **Dynamic Team Assembly:** Humans do not pick roles. The Orchestrator maps the objective to the required capabilities and generates a team.
-* **Goal Ancestry:** Every task carries the macro-objective, the role's purpose, and downstream dependencies. The agent always knows *why* it is working, not just *what* it is doing.
-* **Visible Reasoning:** The `/trace/{task_id}` endpoint translates the raw audit trail into a human-readable narrative, showing exactly what the AI thought, searched, and executed.
+Goal Ancestry: Every autonomous task carries the macro-objective, the role's designated purpose, and downstream dependencies. The agent possesses full contextual awareness of why it is acting, not just what it is executing.
 
-## 🛠 Development & Testing
+Visible Reasoning: The /trace/{task_id} endpoint translates the raw audit trail into a human-readable narrative, delivering total transparency into the agent's logic, web searches, and file manipulations.
 
-### Common Commands
+🛠 Development & Testing
+Common Commands
+make up / make down: Start or stop the cluster without resetting state.
 
-* `make up` / `make down`: Start or stop the cluster without migrating.
-* `make reset`: Completely tears down the database volumes and re-bootstraps the environment. Ideal for clean-slate testing.
+make reset: Completely tears down volumes and re-bootstraps the environment (ideal for CI/CD pipelines).
 
-### Running Tests
-InaiUrai includes Go unit tests, Python Pytest suites, and bash-based smoke tests. To run the full suite:
+Running Tests
+InaiUrai strictly enforces reliability through Go unit tests, Python Pytest suites, and bash-based integration smoke tests.
 
-```bash
+Bash
+
 make test-all
-```
-
-## 📂 Repository Structure
-```text
-InaiUrai/
-├── backend/            # Go 1.23 API, Webhooks, Models, and Channel Infra
-├── engine/             # Python 3.12 Engine, ReAct Loop, Security Firewall
-├── frontend/           # Next.js 14 Client Application
-├── db/                 # SQL Migrations and Seed files
-├── docker-compose.yml  # Service definitions
-└── Makefile            # Build and lifecycle automation
-```
-```
